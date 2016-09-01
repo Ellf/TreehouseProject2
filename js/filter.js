@@ -2,9 +2,18 @@
  * Created by tlorimer on 07/08/2016.
  */
 
+
+// Hide all students as a start
+var studentItem = document.getElementsByClassName('student-item');
+for (var x = 0; x < studentItem.length; x+=1 ) {
+    studentItem[x].style.visibility = "hidden";
+}
+
 // show only 10 students at a time
 
-// caluculate the total number of pages to show at the bottom of the page
+console.log(studentItem);
+
+// calculate the total number of pages to show at the bottom of the page
 
 // Hide all but the first 10 students
 
@@ -27,6 +36,6 @@
 
 // Include simple animation when transitioning between pages
 
-// As the user types in the search box, dynamicaly filter the student listing
+// As the user types in the search box, dynamically filter the student listing
 
 // If no matches are found, include a message in the HTML to tell the user there are no matches
