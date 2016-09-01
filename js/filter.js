@@ -1,21 +1,30 @@
 /**
  * Created by tlorimer on 07/08/2016.
  */
-
+// Required before the rest
+var studentItem = document.getElementsByClassName('student-item');
+// Some Global Variables
+var studentLoop = 0;
+var numberOfStudents = studentItem.length;
+// calculate the total number of pages to show at the bottom of the page
+var numberOfPages = Math.ceil(numberOfStudents / 10);
+var currentPage = 0;
+console.log("numberOfStudents: ", numberOfStudents);
+console.log("numberOfPages: ", numberOfPages);
 
 // Hide all students as a start
-var studentItem = document.getElementsByClassName('student-item');
-for (var x = 0; x < studentItem.length; x+=1 ) {
+for (var x = 0; x < numberOfStudents; x+=1 ) {
     studentItem[x].style.visibility = "hidden";
 }
 
-// show only 10 students at a time
-
-console.log(studentItem);
-
-// calculate the total number of pages to show at the bottom of the page
-
-// Hide all but the first 10 students
+// loop through the number of pages
+var pageStart = currentPage * numberOfPages;
+var pageEnd = pageStart + 10;
+for (var pages = pageStart; x <= pageEnd; pages += 1) {
+    console.log("pageStart: ", pageStart);
+    console.log("pageEnd: ", pageEnd);
+    studentItem[pages].style.visibilty = "visible";
+}
 
 // When the user clicks on "2" in the pagination, students 11 through 20 are shown.
     //This should work no matter the size of the list of students or the number of pages
