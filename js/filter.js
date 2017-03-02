@@ -18,9 +18,10 @@ displayStudents();
 drawPagination();
 
 // When the user clicks on "2" in the pagination, students 11 through 20 are shown.
-//This should work no matter the size of the list of students or the number of pages
+// This should work no matter the size of the list of students or the number of pages
+// Need to grab the element ID from the clicked button
 document.getElementById('pg-2').click(function() {
-    console.log("clicked 2");           <--- here
+    console.log("clicked 2");
     currentPage = 1;
     displayStudents();
 });
@@ -34,6 +35,7 @@ function hideStudents() {
 
 function displayStudents() {
     // loop through the number of pages
+    console.log(currentPage);
     var pageStart = currentPage * 10;
     var pageEnd = pageStart + 10;
     for (var pages = pageStart; pages < pageEnd; pages += 1) {
