@@ -11,10 +11,10 @@ var currentPage = 0; //pages are 0 based
 console.log("numberOfStudents: ", numberOfStudents);
 console.log("numberOfPages: ", numberOfPages);
 
-// The main event
-hideStudents();
-displayStudents();
-drawPagination();
+// The main setup
+hideStudents();     // hide all students
+displayStudents();  // display page one
+drawPagination();   // create the pagination
 
 // When the user clicks on "2" in the pagination, students 11 through 20 are shown.
 // This should work no matter the size of the list of students or the number of pages
@@ -22,11 +22,11 @@ drawPagination();
 const clickID = document.querySelector(".pagination");
 clickID.addEventListener("click", function(event) {
     //console.log(event.target.textContent);
-    currentPage = event.target.textContent;
+    currentPage = event.target.textContent - 1;
     hideStudents();
     displayStudents();
     // We need to change the 'active' class for the newly selected page
-    currentPage
+    //currentPage
     // And change the unselected class to be blank
 });
 
