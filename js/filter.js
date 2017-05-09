@@ -2,10 +2,9 @@
  * Created by tlorimer on 07/08/2016.
  */
 // Required before the rest
-var studentItem = document.getElementsByClassName('student-item');
+const studentItem = document.getElementsByClassName("student-item");
 // Some Global Variables
-var studentLoop = 0;
-var numberOfStudents = studentItem.length;
+const numberOfStudents = studentItem.length;
 // calculate the total number of pages to show at the bottom of the page
 var numberOfPages = Math.ceil(numberOfStudents / 10);
 var currentPage = 0; //pages are 0 based
@@ -20,10 +19,15 @@ drawPagination();
 // When the user clicks on "2" in the pagination, students 11 through 20 are shown.
 // This should work no matter the size of the list of students or the number of pages
 // Need to grab the element ID from the clicked button
-document.getElementById('pg-2').click(function() {
-    console.log("clicked 2");
-    currentPage = 1;
+const clickID = document.querySelector(".pagination");
+clickID.addEventListener("click", function(event) {
+    //console.log(event.target.textContent);
+    currentPage = event.target.textContent;
+    hideStudents();
     displayStudents();
+    // We need to change the 'active' class for the newly selected page
+    currentPage
+    // And change the unselected class to be blank
 });
 
 function hideStudents() {
@@ -46,20 +50,20 @@ function displayStudents() {
 }
 
 function drawPagination() {
-    var el = document.getElementsByClassName('page')[0];
+    const el = document.getElementsByClassName("page")[0];
     // Add a new div element
-    elChild = document.createElement("div");
-    // Create the li nagivation framework with the 'pagination' class
+    var elChild = document.createElement("div");
+    // Create the li navigation framework with the 'pagination' class
     var pageFramework = "<ul class='pagination'>";
 
     // apply the page numbers and id elements to the list items
     for (var x = 1; x <= numberOfPages; x += 1) {
         pageFramework += "<li>";
         // make the first page active
-        if (x == 1) {
-            pageFramework += "<a class='active' id=" + x + " href='#'>" + x + "</a>";
+        if (x == currentPage) {
+            pageFramework += "<a class='active' class='pg' href='#'>" + x + "</a>";
         } else {
-            pageFramework += "<a id='pg-" + x + "' href='#'>" + x + "</a>";
+            pageFramework += "<a class='pg' href='#'>" + x + "</a>";
         }
         pageFramework += "</li>";
     }
@@ -70,8 +74,6 @@ function drawPagination() {
 // append (insert at the end) the pagination div to the page class element
     el.appendChild(elChild);
 }
-
-
 
 // Add search markup using progressive enhancement (use filters-example.html for markup)
 
