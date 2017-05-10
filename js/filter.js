@@ -7,9 +7,10 @@ const studentItem = document.getElementsByClassName("student-item");
 const numberOfStudents = studentItem.length;
 // calculate the total number of pages to show at the bottom of the page
 var numberOfPages = Math.ceil(numberOfStudents / 10);
-var currentPage = 0; //pages are 0 based
-console.log("numberOfStudents: ", numberOfStudents);
-console.log("numberOfPages: ", numberOfPages);
+var currentPage = 1;
+var previousPage = 1; // holding variable for previously picked page
+//console.log("numberOfStudents: ", numberOfStudents);
+//console.log("numberOfPages: ", numberOfPages);
 
 // The main setup
 hideStudents();     // hide all students
@@ -21,13 +22,17 @@ drawPagination();   // create the pagination
 // Need to grab the element ID from the clicked button
 const clickID = document.querySelector(".pagination");
 clickID.addEventListener("click", function(event) {
-    //console.log(event.target.textContent);
-    currentPage = event.target.textContent - 1;
+    // set the previous page to class pg - removing the 'active' class
+    document.getElementById(previousPage).className = "pg";
+
+    currentPage = event.target.textContent;     // get the page number that's clicked
+    previousPage = event.target.textContent;    // set the previous page to the currently clicked page for next time
     hideStudents();
     displayStudents();
+
     // We need to change the 'active' class for the newly selected page
-    //currentPage
-    // And change the unselected class to be blank
+    document.getElementById(event.target.textContent).className = "active";
+
 });
 
 function hideStudents() {
@@ -39,17 +44,18 @@ function hideStudents() {
 
 function displayStudents() {
     // loop through the number of pages
-    console.log(currentPage);
-    var pageStart = currentPage * 10;
+    var pageStart = (currentPage - 1) * 10;
     var pageEnd = pageStart + 10;
+    if (pageEnd > numberOfStudents) {
+        pageEnd =numberOfStudents;
+    }
     for (var pages = pageStart; pages < pageEnd; pages += 1) {
-        //console.log("pages: ", pages);
-        //console.log("length: ", studentItem.length);
         studentItem[pages].style.display = "inherit";
     }
 }
 
 function drawPagination() {
+    // Get the first element of the class 'page' and assign it to the 'el' constant
     const el = document.getElementsByClassName("page")[0];
     // Add a new div element
     var elChild = document.createElement("div");
@@ -60,18 +66,16 @@ function drawPagination() {
     for (var x = 1; x <= numberOfPages; x += 1) {
         pageFramework += "<li>";
         // make the first page active
-        if (x == currentPage) {
-            pageFramework += "<a class='active' class='pg' href='#'>" + x + "</a>";
+        if (x === currentPage) {
+            pageFramework += "<a class='active pg' id='" + x + "' href='#'>" + x + "</a>";
         } else {
-            pageFramework += "<a class='pg' href='#'>" + x + "</a>";
+            pageFramework += "<a class='pg' id='" + x + "' href='#'>" + x + "</a>";
         }
         pageFramework += "</li>";
     }
     pageFramework += "</ul>";
-
     elChild.innerHTML = pageFramework;
-
-// append (insert at the end) the pagination div to the page class element
+    // append (insert at the end) the pagination div to the page class element
     el.appendChild(elChild);
 }
 
