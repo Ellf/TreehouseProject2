@@ -80,6 +80,14 @@ function drawPagination() {
 }
 
 // Add search markup using progressive enhancement (use filters-example.html for markup)
+const elSearch = document.getElementsByClassName("page-header")[0];
+var elSearchChild = document.createElement("div");
+elSearchChild.setAttribute('class', 'student-search');
+var searchFramework = "<input placeholder='Search for students...'>";
+searchFramework += "<button>Search</button>";
+searchFramework += "</input>";
+elSearchChild.innerHTML = searchFramework;
+elSearch.appendChild(elSearchChild);
 
 // Add event listener to the search button.
     // When the user click on the button it should use the text in the search input to filter the results
