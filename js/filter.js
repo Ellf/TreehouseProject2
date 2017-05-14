@@ -92,6 +92,10 @@ elSearch.appendChild(elSearchChild);
 // Add event listener to the search button.
     // When the user click on the button it should use the text in the search input to filter the results
     // Searching should be case insensitive
+const clickSearch = document.querySelector('.student-search button');
+clickSearch.addEventListener('click', function() {
+    console.log(this.previousSibling.value);
+});
 
 // Users should be able to search by name or email address.
     // Partial matching should be displayed in results
