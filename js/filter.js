@@ -8,7 +8,7 @@ const numberOfStudents = studentItem.length;
 // calculate the total number of pages to show at the bottom of the page
 var numberOfPages = Math.ceil(numberOfStudents / 10);
 var currentPage = 1;
-var previousPage = 1; // holding variable for previously picked page
+var previousPage = "1"; // holding variable for previously picked page
 //console.log("numberOfStudents: ", numberOfStudents);
 //console.log("numberOfPages: ", numberOfPages);
 
@@ -57,8 +57,18 @@ function displayStudents() {
 function drawPagination() {
     // Get the first element of the class 'page' and assign it to the 'el' constant
     const el = document.getElementsByClassName("page")[0];
+    const checkClass = document.getElementsByClassName("pagination");
+
     // Add a new div element
     var elChild = document.createElement("div");
+    var ulElement = document.getElementsByClassName('pagination')[0];
+    if (checkClass.length > 0) {
+        // destroy the already present pagination ul
+       ulElement.remove();
+        //console.log(throwAwayNode);
+    }
+
+
     // Create the li navigation framework with the 'pagination' class
     var pageFramework = "<ul class='pagination'>";
 
@@ -102,15 +112,21 @@ clickSearch.addEventListener('click', function() {
     var filterName = this.previousSibling.value; // this.previousSibling.value displays the content of the input field.
     var tempCounter = 0;
     for (var x = 0; x < numberOfStudents; x += 1) { // loop through the students names
-        //unhide all students first
+        // un-hide all students first
         studentItem[x].style.display = "none";
         // if indexOf is not equal to -1 then it's found and therefore show the data
         if (studentName[x].innerHTML.indexOf(filterName) !== -1 || studentEmail[x].innerHTML.indexOf(filterName) !== -1) {
-            studentItem[x].style.display = "block"; // hide the student data
+            studentItem[x].style.display = "inherit"; // hide the student data
             tempCounter += 1;
         }
     }
+
     numberOfPages = tempCounter / 10;
+
+    if (numberOfPages < 1) numberOfPages = 1;
+    currentPage = 1;
+
+    //TODO: this drawing pagination correct but the list isn't limited to 10 per page.
     drawPagination()
 });
 
