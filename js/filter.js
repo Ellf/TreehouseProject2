@@ -47,7 +47,7 @@ function displayStudents() {
     var pageStart = (currentPage - 1) * 10;
     var pageEnd = pageStart + 10;
     if (pageEnd > numberOfStudents) {
-        pageEnd =numberOfStudents;
+        pageEnd = numberOfStudents;
     }
     for (var pages = pageStart; pages < pageEnd; pages += 1) {
         studentItem[pages].style.display = "inherit";
@@ -92,13 +92,29 @@ elSearch.appendChild(elSearchChild);
 // Add event listener to the search button.
     // When the user click on the button it should use the text in the search input to filter the results
     // Searching should be case insensitive
+    // Users should be able to search by name or email address.
+    // Partial matching should be displayed in results
 const clickSearch = document.querySelector('.student-search button');
+const studentName = document.getElementsByTagName('h3');
+const studentEmail = document.getElementsByClassName('email');
+
 clickSearch.addEventListener('click', function() {
-    console.log(this.previousSibling.value);
+    var filterName = this.previousSibling.value; // this.previousSibling.value displays the content of the input field.
+    var tempCounter = 0;
+    for (var x = 0; x < numberOfStudents; x += 1) { // loop through the students names
+        //unhide all students first
+        studentItem[x].style.display = "none";
+        // if indexOf is not equal to -1 then it's found and therefore show the data
+        if (studentName[x].innerHTML.indexOf(filterName) !== -1 || studentEmail[x].innerHTML.indexOf(filterName) !== -1) {
+            studentItem[x].style.display = "block"; // hide the student data
+            tempCounter += 1;
+        }
+    }
+    numberOfPages = tempCounter / 10;
+    drawPagination()
 });
 
-// Users should be able to search by name or email address.
-    // Partial matching should be displayed in results
+
 
 // Search results should also be paginated
 
