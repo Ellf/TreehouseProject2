@@ -38,9 +38,9 @@
 	"/filter-example.html": {
 		"cB": 0,
 		"ft": 8192,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/filter-example.html",
-		"oF": 0
+		"oF": 1
 		},
 	"/index.html": {
 		"cB": 0,
@@ -815,7 +815,7 @@
 			"optionString": "{'allowParens': false}"
 			},
 		"no-console": {
-			"active": 1,
+			"active": 0,
 			"optionString": "{'allow': ['warn', 'error']}"
 			},
 		"no-const-assign": {

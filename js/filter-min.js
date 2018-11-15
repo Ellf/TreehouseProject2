@@ -6,11 +6,9 @@ const studentItem = document.getElementsByClassName("student-item");
 // Some Global Variables
 const numberOfStudents = studentItem.length;
 // calculate the total number of pages to show at the bottom of the page
-var numberOfPages = Math.ceil(numberOfStudents / 10);
-var currentPage = 1;
-var previousPage = "1"; // holding variable for previously picked page
-//console.log("numberOfStudents: ", numberOfStudents);
-//console.log("numberOfPages: ", numberOfPages);
+let numberOfPages = Math.ceil(numberOfStudents / 10);
+let currentPage = 1;
+let previousPage = "1"; // holding variable for previously picked page
 
 // The main setup
 hideStudents();     // hide all students
@@ -44,8 +42,8 @@ function hideStudents() {
 
 function displayStudents() {
     // loop through the number of pages
-    var pageStart = (currentPage - 1) * 10;
-    var pageEnd = pageStart + 10;
+    let pageStart = (currentPage - 1) * 10;
+    let pageEnd = pageStart + 10;
     if (pageEnd > numberOfStudents) {
         pageEnd = numberOfStudents;
     }
@@ -60,8 +58,8 @@ function drawPagination() {
     const checkClass = document.getElementsByClassName("pagination");
 
     // Add a new div element
-    var elChild = document.createElement("div");
-    var ulElement = document.getElementsByClassName('pagination')[0];
+    const elChild = document.createElement("div");
+    let ulElement = document.getElementsByClassName('pagination')[0];
     if (checkClass.length > 0) {
         // destroy the already present pagination ul
        ulElement.remove();
@@ -91,9 +89,9 @@ function drawPagination() {
 
 // Add search markup using progressive enhancement (use filters-example.html for markup)
 const elSearch = document.getElementsByClassName("page-header")[0];
-var elSearchChild = document.createElement("div");
+const elSearchChild = document.createElement("div");
 elSearchChild.setAttribute('class', 'student-search');
-var searchFramework = "<input id='enterButton' placeholder='Search for students...'>";
+let searchFramework = "<input id='enterButton' placeholder='Search for students...'>";
 searchFramework += "<button id='clickButton'>Search</button>";
 elSearchChild.innerHTML = searchFramework;
 elSearch.appendChild(elSearchChild);
@@ -108,32 +106,50 @@ const enterButton = document.getElementById('enterButton');
 const studentName = document.getElementsByTagName('h3');
 const studentEmail = document.getElementsByClassName('email');
 
-enterButton.addEventListener('keyup', function(event) {
+enterButton.addEventListener('keyup', (event) => {
     event.preventDefault();
+    // As the user types in the search box, dynamically filter the student listing
+    document.getElementById("clickButton").click();
     if (event.keyCode === 13) {
         document.getElementById("clickButton").click();
     }
 });
 
 clickSearch.addEventListener('click', function() {
-    var filterName = this.previousSibling.value; // this.previousSibling.value displays the content of the input field.
-    var tempCounter = 0;
+    let filterName = this.previousSibling.value; // this.previousSibling.value displays the content of the input field.
+    let tempCounter = 0;
     for (var x = 0; x < numberOfStudents; x += 1) { // loop through the students names
         // un-hide all students first
         studentItem[x].style.display = "none";
-        // if indexOf is not equal to -1 then it's found and therefore show the data
+        // if indexOf is not equal to -1 then it IS found and therefore show the data
+        // indexOf method returns -1 if the value to search for never occurs
         if (studentName[x].innerHTML.indexOf(filterName) !== -1 || studentEmail[x].innerHTML.indexOf(filterName) !== -1) {
             studentItem[x].style.display = "inherit"; // hide the student data
             tempCounter += 1;
         }
     }
 
-    numberOfPages = tempCounter / 10;
+    numberOfPages = Math.ceil(tempCounter / 10);
 
     if (numberOfPages < 1) numberOfPages = 1;
     currentPage = 1;
 
     //TODO: Search feature works but isn't paginating properly.
+    // User 'ar' to search - results in 14 people.
+    console.log(numberOfPages);
+    console.log("tempCounter", tempCounter);
+    // If no matches are found, include a message in the HTML to tell the user there are no matches
+    if (tempCounter == 0 ) {
+        var noMatch = document.createElement('li');
+        noMatch.id = "nomatcher"
+        let t = document.createTextNode('No Matches Found');
+        noMatch.appendChild(t);
+        document.getElementsByClassName('student-list')[0].appendChild(noMatch);
+    } else {
+        if (document.getElementById('nomatcher') ) {
+            document.getElementById('nomatcher').remove();
+        }
+    }
     drawPagination()
 });
 
@@ -145,7 +161,3 @@ clickSearch.addEventListener('click', function() {
 //////////////////
 
 // Include simple animation when transitioning between pages
-
-// As the user types in the search box, dynamically filter the student listing
-
-// If no matches are found, include a message in the HTML to tell the user there are no matches
