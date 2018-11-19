@@ -136,8 +136,6 @@ clickSearch.addEventListener('click', function() {
 
     //TODO: Search feature works but isn't paginating properly.
     // User 'ar' to search - results in 14 people.
-    console.log(numberOfPages);
-    console.log("tempCounter", tempCounter);
     // If no matches are found, include a message in the HTML to tell the user there are no matches
     if (tempCounter == 0 ) {
         var noMatch = document.createElement('li');
@@ -153,11 +151,6 @@ clickSearch.addEventListener('click', function() {
     drawPagination()
 });
 
-
-
+// TODO:
 // Search results should also be paginated
-
-// EXTRA CREDIT //
-//////////////////
-
 // Include simple animation when transitioning between pages
