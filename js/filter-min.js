@@ -9,6 +9,7 @@ const numberOfStudents = studentItem.length;
 let numberOfPages = Math.ceil(numberOfStudents / 10);
 let currentPage = 1;
 let previousPage = "1"; // holding variable for previously picked page
+let searchedResults = [];
 
 // The main setup
 hideStudents();     // hide all students
@@ -125,10 +126,12 @@ clickSearch.addEventListener('click', function() {
         // indexOf method returns -1 if the value to search for never occurs
         if (studentName[x].innerHTML.indexOf(filterName) !== -1 || studentEmail[x].innerHTML.indexOf(filterName) !== -1) {
             studentItem[x].style.display = "inherit"; // hide the student data
+            searchedResults[tempCounter] = studentItem[x]; 
             tempCounter += 1;
         }
     }
 
+    console.log(searchedResults[0].innerHTML);
     numberOfPages = Math.ceil(tempCounter / 10);
 
     if (numberOfPages < 1) numberOfPages = 1;
