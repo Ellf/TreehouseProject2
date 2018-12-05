@@ -1,10 +1,11 @@
 /**
  * Created by tlorimer on 07/08/2016.
+ * Written in JavaScript rather than jQuery to force me to learn the 'proper' way to do things
  */
 // Required before the rest
 const studentItem = document.getElementsByClassName("student-item");
 // Some Global Variables
-const numberOfStudents = studentItem.length;
+let numberOfStudents = studentItem.length;
 // calculate the total number of pages to show at the bottom of the page
 let numberOfPages = Math.ceil(numberOfStudents / 10);
 let currentPage = 1;
@@ -13,7 +14,7 @@ let searchedResults = [];
 
 // The main setup
 hideStudents();     // hide all students
-displayStudents();  // display page one
+displayStudents(numberOfStudents);  // display page one
 drawPagination();   // create the pagination
 
 // When the user clicks on "2" in the pagination, students 11 through 20 are shown.
@@ -21,13 +22,21 @@ drawPagination();   // create the pagination
 // Need to grab the element ID from the clicked button
 const clickID = document.querySelector(".pagination");
 clickID.addEventListener("click", function(event) {
+
+    let start;
+    let stop;
     // set the previous page to class pg - removing the 'active' class
     document.getElementById(previousPage).className = "pg";
 
     currentPage = event.target.textContent;     // get the page number that's clicked
     previousPage = event.target.textContent;    // set the previous page to the currently clicked page for next time
-    hideStudents();
-    displayStudents();
+    //hideStudents();
+    //displayStudents(numberOfStudents);
+    start = (currentPage * 10) - 10;
+    stop = start + 10;
+    
+    console.log(currentPage, start, stop);
+    drawSearchResults(studentItem, start, stop);
 
     // We need to change the 'active' class for the newly selected page
     document.getElementById(event.target.textContent).className = "active";
@@ -41,19 +50,21 @@ function hideStudents() {
     }
 }
 
-function displayStudents() {
+function displayStudents(numberStudents) {
     // loop through the number of pages
     let pageStart = (currentPage - 1) * 10;
     let pageEnd = pageStart + 10;
-    if (pageEnd > numberOfStudents) {
-        pageEnd = numberOfStudents;
+    if (pageEnd > numberStudents) {
+        pageEnd = numberStudents;
     }
     for (var pages = pageStart; pages < pageEnd; pages += 1) {
         studentItem[pages].style.display = "inherit";
     }
 }
 
+// This function only draws the pagination. The click event for each page number is handled from the clickID eventhandler.
 function drawPagination() {
+
     // Get the first element of the class 'page' and assign it to the 'el' constant
     const el = document.getElementsByClassName("page")[0];
     const checkClass = document.getElementsByClassName("pagination");
@@ -64,9 +75,7 @@ function drawPagination() {
     if (checkClass.length > 0) {
         // destroy the already present pagination ul
        ulElement.remove();
-        //console.log(throwAwayNode);
     }
-
 
     // Create the li navigation framework with the 'pagination' class
     var pageFramework = "<ul class='pagination'>";
@@ -76,9 +85,9 @@ function drawPagination() {
         pageFramework += "<li>";
         // make the first page active
         if (x === currentPage) {
-            pageFramework += "<a class='active pg' id='" + x + "' href='#'>" + x + "</a>";
+            pageFramework += "<a class='active pg' id='" + x + "' style='cursor: pointer;'>" + x + "</a>";
         } else {
-            pageFramework += "<a class='pg' id='" + x + "' href='#'>" + x + "</a>";
+            pageFramework += "<a class='pg' id='" + x + "' style='cursor: pointer;'>" + x + "</a>";
         }
         pageFramework += "</li>";
     }
@@ -119,23 +128,26 @@ enterButton.addEventListener('keyup', (event) => {
 clickSearch.addEventListener('click', function() {
     let filterName = this.previousSibling.value; // this.previousSibling.value displays the content of the input field.
     let tempCounter = 0;
+    let start;
+    let stop;
     for (var x = 0; x < numberOfStudents; x += 1) { // loop through the students names
         // un-hide all students first
-        studentItem[x].style.display = "none";
+        // studentItem[x].style.display = "none";
         // if indexOf is not equal to -1 then it IS found and therefore show the data
         // indexOf method returns -1 if the value to search for never occurs
         if (studentName[x].innerHTML.indexOf(filterName) !== -1 || studentEmail[x].innerHTML.indexOf(filterName) !== -1) {
-            studentItem[x].style.display = "inherit"; // hide the student data
             searchedResults[tempCounter] = studentItem[x]; 
             tempCounter += 1;
+            //  studentItem[x].style.display = "inherit"; // hide the student data
         }
     }
 
-    console.log(searchedResults[0].innerHTML);
     numberOfPages = Math.ceil(tempCounter / 10);
 
     if (numberOfPages < 1) numberOfPages = 1;
-    currentPage = 1;
+    
+    start = (currentPage * 10) - 10;
+    stop = start + 10;
 
     //TODO: Search feature works but isn't paginating properly.
     // User 'ar' to search - results in 14 people.
@@ -145,15 +157,32 @@ clickSearch.addEventListener('click', function() {
         noMatch.id = "nomatcher"
         let t = document.createTextNode('No Matches Found');
         noMatch.appendChild(t);
-        document.getElementsByClassName('student-list')[0].appendChild(noMatch);
+        document.getElementsByClassName('student-list')[0].appendChild(noMatch); 
+        hideStudents();
     } else {
         if (document.getElementById('nomatcher') ) {
             document.getElementById('nomatcher').remove();
         }
     }
-    drawPagination()
+    console.log(start, stop);
+    drawSearchResults(searchedResults, start, stop)
+
+    return false;
 });
 
+
+function drawSearchResults(searchResults, start, stop) {
+    if (stop > numberOfStudents) stop = numberOfStudents;
+    hideStudents();
+    // take the search results and put them back onto the page then apply pagination
+    // we still need to limit by 10 here or in the pagination function
+    for (let x = start; x < stop; x+=1 ) {
+        document.getElementsByClassName('student-list')[0].appendChild(searchResults[x]).style.display = 'inherit';
+    }
+
+    drawPagination();
+}
+
+
 // TODO:
-// Search results should also be paginated
 // Include simple animation when transitioning between pages

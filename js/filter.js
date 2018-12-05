@@ -1,5 +1,6 @@
 /**
  * Created by tlorimer on 07/08/2016.
+ * Written in JavaScript rather than jQuery to force me to learn the 'proper' way to do things
  */
 // Required before the rest
 const studentItem = document.getElementsByClassName("student-item");
