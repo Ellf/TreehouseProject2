@@ -64,6 +64,7 @@ function drawPagination() {
     if (checkClass.length > 0) {
         // destroy the already present pagination ul
        ulElement.remove();
+        //console.log(throwAwayNode);
     }
 
 
@@ -150,18 +151,9 @@ clickSearch.addEventListener('click', function() {
             document.getElementById('nomatcher').remove();
         }
     }
-    drawSearchResults(searchedResults);
     drawPagination()
 });
 
-
-function drawSearchResults(searchResults) {
-    // take the search results and put them back onto the page then apply pagination
-    // save the original page for later
-    const save = document.getElementsByClass('student-list');
-    drawPagination();
-}
-
-
 // TODO:
+// Search results should also be paginated
 // Include simple animation when transitioning between pages
