@@ -130,7 +130,7 @@ clickSearch.addEventListener('click', function() {
     let tempCounter = 0;
     let start;
     let stop;
-    for (var x = 0; x < numberOfStudents; x += 1) { // loop through the students names
+    for (var x = 0; x < numberOfStudents; x += 1) { // loop through the students' names
         // un-hide all students first
         // studentItem[x].style.display = "none";
         // if indexOf is not equal to -1 then it IS found and therefore show the data
@@ -164,8 +164,10 @@ clickSearch.addEventListener('click', function() {
             document.getElementById('nomatcher').remove();
         }
     }
-    console.log(start, stop);
-    drawSearchResults(searchedResults, start, stop)
+    
+    console.log(start, stop); // 0, 10 = page 1; 11, 20 = page 2; etc
+    console.log(searchedResults);
+    //drawSearchResults(searchedResults, start, stop)
 
     return false;
 });
@@ -180,7 +182,7 @@ function drawSearchResults(searchResults, start, stop) {
         document.getElementsByClassName('student-list')[0].appendChild(searchResults[x]).style.display = 'inherit';
     }
 
-    drawPagination();
+    //drawPagination();
 }
 
 
